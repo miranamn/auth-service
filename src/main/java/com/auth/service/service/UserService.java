@@ -34,20 +34,20 @@ public class UserService {
     @Transactional
     public String loginUser(Map<String, String> user){
         String login = user.get("login");
-         Optional<User> person = userRepository.findByLogin(login);
-         String password = person.get().getPassword();
-         String email = person.get().getEmail();
+        Optional<User> person = userRepository.findByLogin(login);
+        String password = person.get().getPassword();
+        String email = person.get().getEmail();
 
-         if (!Crypt.verifyAndUpdateHash(user.get("password"), password))
-             throw new UsernameNotFoundException("Password invalid");
+        if (!Crypt.verifyAndUpdateHash(user.get("password"), password))
+            throw new UsernameNotFoundException("Password invalid");
 
-         String token = Jwts.builder()
-                    .setSubject("user")
-                    .claim("kid", "id")
-                    .claim("email", email)
-                    .signWith(SignatureAlgorithm.RS256, keyPair.getPrivate())
-                    .setExpiration(new Date(System.currentTimeMillis() + 300000))
-                    .compact();
+        String token = Jwts.builder()
+                .setSubject("user")
+                .claim("kid", "id")
+                .claim("email", email)
+                .signWith(SignatureAlgorithm.RS256, keyPair.getPrivate())
+                .setExpiration(new Date(System.currentTimeMillis() + 300000))
+                .compact();
         return token;
     }
 }

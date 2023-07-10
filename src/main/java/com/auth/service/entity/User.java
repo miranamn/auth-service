@@ -7,6 +7,10 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.UUID;
+
+import static com.auth.service.basicUtils.Values.LOGIN_MESSAGE;
+import static com.auth.service.basicUtils.Values.PASSWORD_MESSAGE;
+
 @Data
 @Getter
 @Setter
@@ -21,13 +25,12 @@ public class User {
     private UUID id;
 
     @Column(unique = true)
-    @Size(min = 4, max = 15, message="{size is invalid}")
+    @Size(min = 4, max = 15, message=LOGIN_MESSAGE)
     private String login;
 
-    @NotBlank(message="{password is invalid}")
+    @NotBlank(message=PASSWORD_MESSAGE)
     private String password;
 
     @Email
-    @NotBlank(message="{password is invalid}")
     private String email;
 }
